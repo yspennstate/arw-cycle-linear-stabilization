@@ -2,6 +2,8 @@
 
 Yitzchak Shmalo
 
+DOI: [10.5281/zenodo.24460412](https://doi.org/10.5281/zenodo.24460412) (all versions); version 1.0: [10.5281/zenodo.24460413](https://doi.org/10.5281/zenodo.24460413)
+
 Consider activated random walk on the cycle Z_n with symmetric nearest-neighbour jumps and sleep rate lambda > 0,
 started from independent Poisson or Bernoulli particle counts of mean zeta, all particles active. If zeta is below
 the critical density rho_c(lambda), then the total number of topplings needed to stabilize the system is of order n
