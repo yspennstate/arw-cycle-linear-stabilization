@@ -1,0 +1,553 @@
+\documentclass[11pt]{amsart}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[T1]{fontenc}
+\usepackage[margin=1.1in]{geometry}
+\usepackage{booktabs}
+\raggedbottom
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\E}{\mathbb E}
+\newcommand{\sleep}{\varrho}
+\renewcommand{\Pr}{\mathbb P}
+
+\title{Linear stabilization of subcritical activated random walk on the cycle}
+\author{Yitzchak Shmalo}
+\address{Einstein Institute of Mathematics, The Hebrew University of Jerusalem,\newline Givat Ram, Jerusalem, Israel}
+\subjclass[2020]{Primary 60K35; Secondary 82C22}
+\keywords{activated random walk, absorbing-state phase transition, stabilization time, odometer}
+\date{}
+
+\begin{document}
+
+\begin{abstract}
+Consider activated random walk on the cycle $\Z_n$ with symmetric nearest-neighbour jumps and sleep rate $\lambda>0$,
+started from independent Poisson or Bernoulli particle counts of mean $\zeta$, all particles active. We show that if
+$\zeta$ is below the critical density $\rho_c(\lambda)$, then the total number of topplings needed to stabilize the
+system is of order $n$ with probability tending to one. Previously a bound of order $n\log^2 n$ was known in this range for a
+fixed number of particles, from the work of Hoffman, Johnson and Junge. As a consequence the
+odometer at a fixed site is tight. The proof combines the stable odometers built by
+Johnson and Richey for the subcritical odometer tail on $\Z$ with a pasting argument on the cycle and a routing of
+Poisson particles onto Bernoulli sites.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}\label{sec:intro}
+
+Activated random walk (ARW) is an interacting particle system with two kinds of particles, active and sleeping. Active
+particles perform continuous-time random walks and fall asleep at rate $\lambda$ when alone on a site; a sleeping
+particle is woken when another particle arrives at its site. On a finite graph without a sink, a configuration either
+reaches a stable state, in which every particle sleeps, or keeps moving forever. We refer to the survey of Rolla
+\cite{Rolla} for background.
+
+We consider the model on the cycle $\Z_n=\Z/n\Z$ with nearest-neighbour symmetric jumps. Let $\eta_0$ consist of
+independent Poisson$(\zeta)$ numbers of active particles at the sites of $\Z_n$, and let $T_n$ be the total number of
+topplings performed during the stabilization of $\eta_0$, set to $+\infty$ if the system does not stabilize. Basu,
+Ganguly, Hoffman and Richey \cite{BGHR} found two phases for this quantity, starting from independent Bernoulli$(\zeta)$
+counts. They showed that $T_n\le Cn\log^2 n$ with probability at least $1-n^{-b}$ when $\zeta<\lambda/(1+\lambda)$
+\cite[Theorem~1]{BGHR}, and that for every $\zeta\in(0,1)$, once $\lambda$ is small enough, $T_n\ge e^{cn}$ with
+probability at least $1-e^{-cn}$ \cite[Theorem~2]{BGHR}. Rolla's survey \cite[Theorem~6.1]{Rolla} states both phases for
+Poisson$(\zeta)$ counts, the fast one in the form $\Pr(T_n\le\kappa n\log^2 n)\ge 1-n^{-\delta}$ for large $\lambda$, with
+a proof adapted from \cite{BGHR}. Among the open problems listed there are to show that one of the two phases occurs at
+every point off the critical curve, to remove the factor $\log^2 n$ from the fast-phase bound, and to show that the
+odometer at a fixed site is tight in the fast phase.
+
+The first of these problems was settled by Hoffman, Johnson and Junge \cite{HJJ} as part of their proof of the density
+conjecture; see also Forien \cite{Forien} for another proof of the density conjecture on the line. They identified the
+critical density $\rho_c(\lambda)$ of ARW on $\Z$ with the growth rate of layer percolation, and showed
+\cite[Proposition~8.12]{HJJ} that for $\lfloor\rho n\rfloor$ active particles placed uniformly on the cycle, the total
+number of instructions used is at most $Cn\log^2 n$ with probability at least $1-n^{-b}$ when $\rho<\rho_c$, and at least
+$e^{cn}$ with probability at least $1-e^{-cn}$ when $\rho>\rho_c$. Their statement is for a fixed number of particles;
+when these are placed independently, its slow phase transfers to Poisson counts by the coupling used in the proof of
+Corollary~\ref{cor:fixed} below, since the Poisson configuration then lies above a fixed number of independent particles
+at a slightly smaller density. On the
+slow side, Forien and Gaudilli\`ere \cite{FG} showed that for high density and small sleep rate the stabilization time on
+the $d$-dimensional torus is exponentially large, in every dimension $d\ge1$, and de~Lima, Rolla and Terra \cite{LRT}
+gave a toppling procedure for the ring at high density. Driven-dissipative ARW has also been studied: on a Euclidean ball its mixing time is at most
+$1+o(1)$ times the volume as the radius tends to infinity \cite{LL}, on finite networks with
+absorption at the boundary its relaxation time is known and separation cutoff is equivalent to the product condition
+\cite{BS}, and in one dimension its mixing time has cutoff \cite{HJJMcut} and it shows self-organized criticality
+\cite{HJJMsoc}. ARW on the complete graph is studied in \cite{JKM}. We show that the logarithmic factor can be removed in the
+whole subcritical range. Recall that $\rho_c(\lambda)<1$ for every $\lambda>0$; this was proved on $\Z$ by Hoffman,
+Richey and Rolla \cite{HRR} and in every dimension by Asselah, Forien and Gaudilli\`ere \cite{AFG}, so Bernoulli$(\zeta)$ counts
+make sense below the critical density.
+
+\begin{theorem}\label{thm:main}
+Let $\lambda>0$ and $0<\zeta<\rho_c(\lambda)$. Let the initial counts on $\Z_n$ be independent with law either
+Poisson$(\zeta)$ or Bernoulli$(\zeta)$, all particles active. There are constants $c,C,K\in(0,\infty)$, depending only
+on $\lambda$ and $\zeta$, such that for all $n\ge 3$,
+\begin{equation}\label{eq:main}
+\Pr\bigl(cn\le T_n\le Kn\bigr)\ \ge\ 1-C\,\frac{\log n}{n}.
+\end{equation}
+\end{theorem}
+
+The lower bound is elementary: each initially occupied site must topple at least once. For a similar
+reason \cite{BGHR} note that their bound is sharp up to the polylogarithmic factor. The content of the theorem is the upper bound. The same bound holds for the fixed-number model of \cite[Proposition~8.12]{HJJ}.
+
+\begin{corollary}\label{cor:fixed}
+Let $\lambda>0$ and $0<\rho<\rho_c(\lambda)$, and place $\lfloor\rho n\rfloor$ active particles on $\Z_n$, either
+independently and uniformly, or one at each site of a uniformly chosen set of $\lfloor\rho n\rfloor$ sites. Then \eqref{eq:main} holds for the total number of topplings $T_n$, with constants depending only
+on $\lambda$ and $\rho$.
+\end{corollary}
+
+Write $m_n(x)$ for the number of topplings at $x$ during the stabilization of $\eta_0$, so that $T_n=\sum_x m_n(x)$.
+
+\begin{corollary}\label{cor:tight}
+Under the assumptions of Theorem~\ref{thm:main} or Corollary~\ref{cor:fixed},
+\[
+\lim_{M\to\infty}\limsup_{n\to\infty}\Pr\bigl(m_n(0)>M\bigr)=0 .
+\]
+\end{corollary}
+
+Corollary~\ref{cor:tight} gives the tightness asked for in \cite[Section~6]{Rolla}, for the Poisson initial condition
+considered there, at every density $\zeta<\rho_c(\lambda)$. When the particles in \cite[Proposition~8.12]{HJJ} are
+placed independently, its slow phase transfers to Poisson counts by the coupling in the proof of Corollary~\ref{cor:fixed}, so that, apart from the critical density
+itself, these are all the densities of the fast phase.
+
+The main input is a construction of Johnson and Richey \cite{JR}. To prove that the odometer at the origin of
+subcritical ARW on $\Z$ has a stretched-exponential tail, they build, with overwhelming probability, an odometer on an
+interval that is stable in its interior, takes a value of order $t^2$ at the centre, and grows quadratically in the
+distance from the centre. We use the growth at the two endpoints: it lets us paste local odometers centred at every site
+of the cycle into a single function that dominates every legal toppling sequence (Section~\ref{sec:paste}). This gives
+the upper bound for Bernoulli initial counts. Poisson counts are reduced to Bernoulli counts by first moving each
+particle to a distinct site of an independent Bernoulli set of marks, at a cost of order $n$ topplings
+(Section~\ref{sec:poisson}). The author proved in \cite{Shm} that for subcritical ARW on $\Z$
+with i.i.d.\ initial counts the expected odometer at the origin is finite exactly when the count per site has a finite
+third moment; the upper bound there uses a similar routing onto an independent Bernoulli configuration of slightly
+larger density. That result concerns the odometer on $\Z$ and gives no bound on the stabilization time of the cycle.
+
+\section{Notation and the site-wise representation}\label{sec:prelim}
+
+Throughout, $c,C,C',\ldots$ denote positive constants that depend only on $\lambda$ and the particle density; their
+values may change from line to line.
+
+We use the site-wise representation of ARW \cite[Section~2]{Rolla}. A configuration is a function
+$\eta:\Z_n\to\{0,\sleep,1,2,\ldots\}$, where $\eta(x)=\sleep$ means one sleeping particle at $x$ and $\eta(x)=k\ge1$
+means $k$ active particles. We order $0<\sleep<1<2<\cdots$, and write $|\sleep|=1$ for the number of particles. A
+configuration is stable if every value is $0$ or $\sleep$.
+
+Each site $x$ carries an instruction stack $(\tau^{x,k})_{k\ge1}$. The instructions are independent over $x$ and $k$;
+each is a jump to the left neighbour or to the right neighbour with probability $\frac{1}{2(1+\lambda)}$ each, or a sleep
+instruction with probability $\frac{\lambda}{1+\lambda}$. Toppling $x$ applies the next unused instruction at $x$: a jump
+moves one particle from $x$ to the neighbour (a sleeping particle at $x$ is woken first, and the moved particle is active
+at its destination, waking a sleeping particle there); a sleep instruction turns $\eta(x)=1$ into $\sleep$ and does
+nothing if $\eta(x)\ge2$ or $\eta(x)=\sleep$. A toppling at $x$ is \emph{legal} if $\eta(x)\ge1$ and \emph{acceptable} if
+$\eta(x)\ge\sleep$. For a finite sequence $\alpha$ of topplings, $m_\alpha(x)$ denotes the number of topplings of $x$ in
+$\alpha$.
+
+We use three properties from \cite[Section~2]{Rolla}: the abelian property (Lemma~2.4 there), the least-action principle
+(Lemma~2.1: if $\alpha$ is an acceptable sequence that stabilizes $\eta$ and $\beta$ is any legal sequence for $\eta$,
+then $m_\beta\le m_\alpha$), and monotonicity (Lemma~2.5: if $\eta\le\tilde\eta$ pointwise then
+$m_\eta\le m_{\tilde\eta}$, where $m_\eta$ is the stabilizing odometer). They are stated in \cite{Rolla} for a finite set
+$V\subset\Z^d$ with particles leaving $V$ frozen outside, and their proofs use only the finiteness of the set of sites
+and the site-wise structure; they apply verbatim to the finite graph $\Z_n$ with $V=\Z_n$. In particular, if every legal
+sequence for $\eta$ has length at most $L$, then a maximal legal sequence stabilizes $\eta$ and $T_n=\sum_x m_\eta(x)\le L$.
+
+\subsection*{Stable arrays}
+For a function $u:I\to\Z_{\ge0}$ on an interval $I$ of sites and $y\in I$, let $L_y(u)$ and $R_y(u)$ be the numbers of
+left and right jump instructions among $\tau^{y,1},\ldots,\tau^{y,u(y)}$, and let $s_y(u)=1$ if $u(y)\ge1$ and
+$\tau^{y,u(y)}$ is a sleep instruction, and $s_y(u)=0$ otherwise. For an initial configuration $\sigma$ of active
+particles, we say that $u$ is \emph{stable at} $y$ if $y-1,y+1\in I$ and
+\begin{equation}\label{eq:balance}
+\sigma(y)+R_{y-1}(u)+L_{y+1}(u)-L_y(u)-R_y(u)=s_y(u).
+\end{equation}
+This is the mass-balance equation (2.1) of \cite{JR}: the left side is the number of particles that $u$ leaves at $y$,
+and stability means that this number is $0$, or $1$ with the last instruction executed at $y$ a sleep instruction. We
+call $u$ stable in the interior of $I=[x-R,x+R]$ if it is stable at every $y$ with $|y-x|<R$. The values of $u$ at the
+two endpoints are unconstrained.
+
+\section{Local odometers with large endpoints}\label{sec:local}
+
+\begin{lemma}\label{lem:local}
+Let $\lambda>0$ and $0<r<\rho_c(\lambda)$, and let $\sigma$ consist of independent Bernoulli$(r)$ active particles.
+There are constants $a,b,c,C>0$ depending only on $\lambda$ and $r$ such that for all integers $R>t\ge1$, with
+probability at least $1-Ce^{-ct}$ there is a function $u:[-R,R]\to\Z_{\ge0}$, stable in the interior of $[-R,R]$, with
+\begin{equation}\label{eq:local}
+u(0)\le bt^2\qquad\text{and}\qquad \min\{u(-R),u(R)\}\ge aR^2 .
+\end{equation}
+The event depends only on $\sigma$ and the instruction stacks on $[-R,R]$.
+\end{lemma}
+
+\begin{proof}
+This is the construction in the proof of the upper bound of \cite[Theorem~1.1]{JR}, applied with their $n$
+equal to $t$, their $N$ equal to $R$, their $\rho$ equal to $r$, and $\epsilon=(\rho_*-r)/3$, where $\rho_*=\rho_c(\lambda)$
+by \cite{HJJ}. The lemma is stated for Bernoulli counts because that construction is carried out for i.i.d.
+Bernoulli initial configurations; in particular the net flow $f_0=\sigma(0)$ below lies in $\{0,1\}$. We recall what it
+gives. Put $u_0=\lceil 3(1+\lambda)t^2\rceil$ and $f_0=\sigma(0)$. Johnson and Richey take
+the extended odometer $g$ on $[0,R]$ with $g(0)=u_0$, net flow $f_0$ from $0$ to $1$, stable on $[1,R-1]$, that
+corresponds to the $k_0$-greedy infection path of layer percolation. By \cite[Lemma~3.2(a)]{JR} and the minimality of the
+minimal odometer, $g\ge0$ on $[0,t]$ except with probability $Ce^{-ct}$. For $t<j\le R$ the right-jump count of $g$ at $j$
+equals $r_j+R_j(m)$, where $r_j$ is the first coordinate of the greedy path and $m$ the minimal odometer
+\cite[Proposition~2.1]{JR}, and \cite[Lemmas~3.2(b) and~3.3]{JR} give
+\[
+\Pr\Bigl(R_j(g)<(\rho_*-r-2\epsilon)\,j^2/2\Bigr)\le Ce^{-cj}.
+\]
+Negative values of an extended odometer correspond to executing instructions in reverse \cite[Section~2]{JR}, following the definition in \cite{HJJ}, so a
+positive right-jump count at $j$ forces $g(j)>0$. A union bound over $t<j\le R$ shows that, except with probability $Ce^{-ct}$, $g$ is a nonnegative odometer on $[0,R]$
+stable on $[1,R-1]$ with
+\[
+g(R)\ \ge\ R_R(g)\ \ge\ \tfrac12(\rho_*-r-2\epsilon)R^2=\tfrac{\epsilon}{2}R^2 .
+\]
+By the symmetry between left and right instructions, the same holds for an odometer $g'$ on $[-R,0]$ with $g'(0)=u_0$,
+zero net flow from $0$ to $-1$, stable on $[-R+1,-1]$, and $g'(-R)\ge\frac{\epsilon}{2}R^2$. Pasting $g$ and $g'$ along
+the common value $u_0$ at $0$ and lowering the value at $0$ to the last non-sleep instruction among the first $u_0$
+(which exists except with probability $Ce^{-ct}$), Johnson and Richey obtain an odometer on $[-R,R]$ that is stable on
+$[-R+1,R-1]$ (same proof in \cite{JR}). Lowering the value at $0$ changes neither the jump counts at $0$ nor the values elsewhere.
+The resulting function satisfies \eqref{eq:local} with $b=3(1+\lambda)+1$ and $a=\epsilon/2$. The constants in these
+bounds do not depend on $R$, which plays the role of their $N$.
+
+Finally, the existence of a function with the stated properties is an event determined by $\sigma$ and the stacks on
+$[-R,R]$, since it is a countable union over candidate functions, each of which is checked by finitely many
+instructions.
+\end{proof}
+
+\section{Pasting on the cycle: the Bernoulli case}\label{sec:paste}
+
+The following comparison is a version of the least-action principle for functions satisfying the mass-balance relation
+as an inequality; compare the least-action principle for weakly stable odometers in \cite[Lemma~2.3]{HJJ}.
+
+\begin{lemma}\label{lem:super}
+Let $n\ge3$, let $\sigma$ be a configuration of active particles on $\Z_n$, and let $U:\Z_n\to\Z_{\ge0}$ satisfy
+\begin{equation}\label{eq:super}
+\sigma(y)+R_{y-1}(U)+L_{y+1}(U)-L_y(U)-R_y(U)\ \le\ s_y(U)\qquad\text{for every }y\in\Z_n .
+\end{equation}
+Then every legal sequence $\beta$ for $\sigma$ satisfies $m_\beta\le U$. Consequently $T_n\le\sum_y U(y)$.
+\end{lemma}
+
+\begin{proof}
+Suppose not, and consider the first toppling of $\beta$ after which $m_\beta(y)>U(y)$ at some site $y$. Just before it,
+$y$ has been toppled exactly $U(y)$ times and every other site $z$ at most $U(z)$ times. The number of particles at $y$ at
+that moment is $\sigma(y)$ plus the jumps into $y$ minus the jumps out of $y$, that is
+\[
+\sigma(y)+R_{y-1}(m)+L_{y+1}(m)-L_y(U)-R_y(U),
+\]
+where $m$ is the current odometer. Since $R_{y-1}$ and $L_{y+1}$ are nondecreasing in the number of instructions used,
+this is at most the left side of \eqref{eq:super}, hence at most $s_y(U)\in\{0,1\}$. If $s_y(U)=0$, the site $y$ is empty
+and cannot be toppled legally. If $s_y(U)=1$, the last instruction used at $y$ was a sleep instruction, used by a
+legal toppling, so $y$ held at least one particle at that time. If at that time
+$y$ held at least two particles, it still holds at least two, since no instruction has been used at $y$ since then and
+arrivals only add particles; this contradicts the bound $1$. If it held exactly one particle, that particle fell asleep,
+and it is still alone and asleep, since an arrival would raise the count to two. In both cases the next toppling at $y$
+is not legal, a contradiction. The last statement follows from the remark at the end of Section~\ref{sec:prelim}.
+\end{proof}
+
+\begin{proposition}\label{prop:bernoulli}
+Theorem~\ref{thm:main} holds for Bernoulli$(r)$ initial counts with $0<r<\rho_c(\lambda)$.
+\end{proposition}
+
+\begin{proof}
+Let $a,b,c,C$ be the constants of Lemma~\ref{lem:local}. Set $J=\lceil B\log n\rceil$ and $R=\lceil AJ\rceil$, where $A>1$
+satisfies $aA^2>b$ and $B$ is large, to be fixed. We take $n>2R+1$, so that every interval $[x-R,x+R]$ of $\Z_n$ is a
+genuine interval; smaller $n$ are absorbed into $C$.
+
+For each $x\in\Z_n$ let $D_x$ be the least $t\in\{1,\ldots,J\}$ for which there is a function on $[x-R,x+R]$ satisfying
+the conclusion of Lemma~\ref{lem:local} translated to centre $x$, and $D_x=J$ if there is none. Let $G$ be the event that
+such a function exists at every centre for some $t\le J$. By Lemma~\ref{lem:local} and translation invariance,
+$\Pr(D_x>t)\le Ce^{-ct}$ for $t<J$, and $\Pr(G^c)\le nCe^{-cJ}\le n^{-2}$ once $B$ is large. In particular
+$\sup_{n,x}\E D_x^4<\infty$, and $D_x$ is determined by $\sigma$ and the stacks within distance $R$ of $x$.
+
+On $G$, choose for each centre $x$ a function $u_x$ on $[x-R,x+R]$ with $u_x(x)\le bD_x^2$, stable in the interior,
+with endpoint values at least $aR^2$. For $y\in\Z_n$ put
+\[
+U(y)=\min\{u_x(y):\ |x-y|\le R\},
+\]
+with cyclic distance. We check \eqref{eq:super} at $y$. Let $x$ attain the minimum. Then
+\[
+u_x(y)=U(y)\le u_y(y)\le bD_y^2\le bJ^2<aR^2\le\min\{u_x(x-R),u_x(x+R)\},
+\]
+so $y$ is not an endpoint of $[x-R,x+R]$, and $u_x$ is stable at $y$. The neighbours $y\pm1$ lie in $[x-R,x+R]$, so
+$U(y\pm1)\le u_x(y\pm1)$. Since $U(y)=u_x(y)$, the quantities $L_y,R_y,s_y$ agree for $U$ and $u_x$, while $R_{y-1}(U)\le
+R_{y-1}(u_x)$ and $L_{y+1}(U)\le L_{y+1}(u_x)$. Hence \eqref{eq:balance} for $u_x$ gives \eqref{eq:super} for $U$ at $y$.
+By Lemma~\ref{lem:super}, on $G$,
+\[
+T_n\le\sum_yU(y)\le b\sum_y D_y^2 .
+\]
+If the cyclic distance between $x$ and $x'$ exceeds $2R$, then $D_x$ and $D_{x'}$ are independent. By the Cauchy--Schwarz
+inequality, $\operatorname{Var}(\sum_yD_y^2)\le(4R+1)\,n\sup\E D^4\le C'n\log n$, while $\E\sum_yD_y^2\le C_0n$. By
+Chebyshev's inequality, $\Pr(\sum_yD_y^2>(C_0+1)n)\le C'\log n/n$. Therefore $T_n\le b(C_0+1)n$ except with probability
+$C''\log n/n$. The lower bound is proved in Section~\ref{sec:lower}.
+\end{proof}
+
+\section{Poisson counts}\label{sec:poisson}
+
+Fix $r$ with $\zeta<r<\rho_c(\lambda)$, and let $\xi$ be an independent set of marks: each site of $\Z_n$ is marked with
+probability $r$, independently. We first move every particle of $\eta_0$ to a distinct mark by acceptable topplings, and
+then stabilize.
+
+\subsection*{The routing}
+Enumerate the particles of $\eta_0$ in a fixed order. In turn, each particle is moved until it stands on a mark that has
+not been reserved, which it then reserves for good; its starting site counts. To move a particle standing at $z$ we
+topple $z$. A jump instruction moves this particle (any particle at $z$ may be chosen, since particles are
+indistinguishable in the site-wise representation, and we follow the one being routed); a sleep instruction leaves it in
+place, possibly asleep, and we topple $z$ again, so that the first later jump instruction at $z$ moves it. Every such
+toppling is acceptable, since $z$ holds the routed particle. Particles already
+standing on their reserved marks are not followed: they stay at their sites, possibly asleep, possibly woken by a passing
+particle.
+
+It is convenient to generate the instructions used during the routing from tapes attached to the particles. Index the
+particles by their starting site and their rank among the particles starting there: particle $(x,k)$ carries a tape
+$\theta^{x,k}$, a sequence of instructions with the same law as a stack, the tapes being independent over $(x,k)$ and
+independent of $\eta_0$ and $\xi$. Each time the site of a particle is toppled for it, the next symbol of its own tape is used as the next
+instruction of the site where it stands. Since each symbol is independent of
+everything revealed before it is used, the sequence of instructions used at each site has the law of the beginning of
+an instruction stack, and the unused instructions at each site may be taken to be fresh independent stacks, independent of
+$\eta_0$, $\xi$ and all tapes. We call these the \emph{fresh stacks}.
+
+Under the tape description, each routed particle performs a lazy simple random walk driven by its tape: it jumps left or right
+with probability $\frac{1}{2(1+\lambda)}$ each and stays with probability $\frac{\lambda}{1+\lambda}$ at each step, until
+it reaches an unreserved mark. On the cycle such a walk reaches any given site almost surely, so the routing terminates
+whenever the number of marks exceeds the number of particles.
+
+\subsection*{The cost of the routing}
+Call a set of consecutive sites of $\Z_n$ \emph{deficient} if it contains at least as many particles of $\eta_0$ as
+marks; the whole cycle is included among these sets. For a set of $l$ sites, the difference between the particle count
+and the mark count is a sum of $l$ independent copies of $X-Y$, with $X\sim$ Poisson$(\zeta)$ and $Y\sim$ Bernoulli$(r)$
+independent, and $\E[X-Y]=\zeta-r<0$. By Chernoff's bound there is $d>0$ such that every fixed set of $l$ consecutive sites is
+deficient with probability at most $e^{-dl}$. Let $H=\lceil B'\log n\rceil$, and let $\mathcal D$ be the event that no
+deficient set has more than $H$ sites. Since there are at most $n$ sets of each length,
+$\Pr(\mathcal D^c)\le n\sum_{l>H}e^{-dl}\le n^{-2}$ for $B'$ large. On $\mathcal D$ the whole cycle is not deficient,
+so the routing terminates.
+
+Assume $\mathcal D$. Let $\mathcal V$ be the set of sites visited by at least one routed particle, starting and final
+sites included, and let $I$ be a connected component of $\mathcal V$; it is a set of consecutive sites. A routed particle
+visits a set of consecutive sites containing its starting site, so a particle starting in $I$ stays in $I$, and a particle
+that ends in $I$ started in $I$. Every mark in $I$ has been visited, and a particle visiting an unreserved mark stops
+there, so every mark in $I$ is reserved, each by a different particle that started in $I$. Hence $I$ contains at least as
+many particles of $\eta_0$ as marks: $I$ is deficient, and so has at most $H$ sites.
+
+For $x\in\Z_n$ let $h_x$ be the largest number of sites of a deficient set with at most $H$ sites containing $x$, or $1$
+if there is none. A deficient set of $l$ sites containing $x$ is one of $l$ sets, so $\Pr(h_x\ge k)\le\sum_{l\ge k}le^{-dl}$
+for $k\ge2$, uniformly in $n$ and $x$; all moments of $h_x$ are bounded uniformly. On $\mathcal D$, a particle starting at
+$x$ moves inside its component, which contains $x$ and has at most $h_x$ sites, so its walk does not leave
+$[x-h_x,x+h_x]$. Let $W_x$ be the sum, over the particles starting at $x$, of the number of steps their tape-driven walks
+take to leave $[x-h_x,x+h_x]$, each walk continued on its own tape for this purpose. On $\mathcal D$ the number of
+instructions used to route the particles starting at $x$ is at most $W_x$.
+
+For the lazy walk above started at $i\in[-h,h]$, the mean exit time from $[-h,h]$ is $(1+\lambda)((h+1)^2-i^2)$, by
+solving the difference equation with zero boundary values at $\pm(h+1)$. By Markov's inequality and restarting at
+multiples of $\lceil2(1+\lambda)(h+1)^2\rceil$ steps, its second moment is at most $C_\lambda(h+1)^4$. The tapes are
+independent of $\eta_0$ and $\xi$, so by the Cauchy--Schwarz inequality,
+$\E[W_x^2\mid\eta_0,\xi]\le C_\lambda\,\eta_0(x)^2(h_x+1)^4$, and another application with the fourth moment of the
+Poisson law and the eighth moment of $h_x+1$ gives $\sup_{n,x}\E W_x^2<\infty$. The variable $W_x$ is determined by $\eta_0$
+and $\xi$ within distance $H$ of $x$ and by the tapes $\theta^{x,k}$, $k\ge1$, so $W_x$ and $W_{x'}$ are
+independent when the cyclic distance between $x$ and $x'$ exceeds $2H$. As in the proof of
+Proposition~\ref{prop:bernoulli}, Chebyshev's inequality gives $\sum_xW_x\le C_1n$ except with probability
+$C'\log n/n$.
+
+\subsection*{After the routing}
+When the routing ends, each particle stands on its own mark, active or asleep, and there is at most one particle at
+each site. The resulting configuration $\eta'$ therefore satisfies $\eta'\le\eta_\xi$, where $\eta_\xi$ has one active
+particle at each mark. Apply Proposition~\ref{prop:bernoulli} to $\eta_\xi$ and the fresh stacks: since $\xi$ is
+Bernoulli$(r)$ and independent of the fresh stacks, the stabilization of $\eta_\xi$ uses at most $C_2n$ topplings except
+with probability $C\log n/n$. By monotonicity, the same holds for the stabilization of $\eta'$ with the fresh stacks.
+
+The routing followed by a legal stabilization of $\eta'$ with the fresh stacks is an acceptable sequence of topplings
+that stabilizes $\eta_0$ with the original stacks. By the least-action principle, every legal sequence for $\eta_0$, in
+particular a stabilizing one, uses at most as many topplings at each site. Collecting the exceptional events,
+$T_n\le(C_1+C_2)n$ except with probability $C\log n/n$. This proves the upper bound in Theorem~\ref{thm:main} for Poisson
+counts.
+
+\section{The lower bound and the corollaries}\label{sec:lower}
+
+\begin{proof}[Proof of the lower bound in Theorem~\ref{thm:main}]
+An initially occupied site holds only active particles, and the configuration can become stable at that site only after
+an instruction has been used there. Hence $T_n$ is at least the number of initially occupied sites, which is binomial with
+parameters $n$ and $p=1-e^{-\zeta}$ or $p=\zeta$. By Chernoff's bound it is at least $pn/2$ except with probability
+$e^{-c n}$.
+\end{proof}
+
+\begin{proof}[Proof of Corollary~\ref{cor:fixed}]
+Let $N=\lfloor\rho n\rfloor$ and choose $\zeta\in(\rho,\rho_c(\lambda))$. Take independent Poisson$(\zeta)$ counts on
+$\Z_n$, with total $M$. Given $M$, these counts are those of $M$ independent uniform particles, and when $M\ge N$ the
+first $N$ of these particles give a configuration with the law in the corollary that is pointwise below the Poisson
+configuration. Since $\Pr(M<N)\le e^{-cn}$, monotonicity and Theorem~\ref{thm:main} give the upper bound. For the lower
+bound, the number of sites occupied by $N$ independent uniform particles has mean $n(1-(1-1/n)^N)\ge c'n$ and changes by at
+most one when one particle is moved, so it is at least $c'n/2$ except with probability $e^{-cn}$ by the bounded
+differences inequality.
+
+For a uniformly chosen set of $N$ sites, take Bernoulli$(\zeta)$ counts instead, with the same $\zeta$. Given the number
+$M'$ of occupied sites, the occupied set is uniform among sets of that size, so when $M'\ge N$ a uniformly chosen
+$N$-element subset of it has the law in the corollary and is pointwise below the Bernoulli configuration. Since
+$\Pr(M'<N)\le e^{-cn}$, monotonicity and Theorem~\ref{thm:main} for Bernoulli counts give the upper bound, and the lower
+bound holds because $N$ sites are occupied.
+\end{proof}
+
+\begin{proof}[Proof of Corollary~\ref{cor:tight}]
+The law of $(m_n(x))_x$ is invariant under rotations of $\Z_n$. On the event $T_n\le Kn$ at most $Kn/M$ sites have
+$m_n(x)>M$. Hence
+\[
+\Pr(m_n(0)>M)=\frac1n\,\E\#\{x:m_n(x)>M\}\le\frac KM+\Pr(T_n>Kn),
+\]
+and the last term tends to zero by Theorem~\ref{thm:main} or Corollary~\ref{cor:fixed}.
+\end{proof}
+
+\begin{remark}
+Theorem~\ref{thm:main} is a statement with high probability, not about expectations: for Poisson counts there is a
+positive probability that the cycle holds more than $n$ particles, in which case $T_n=\infty$. The rate $\log n/n$ comes
+from the second-moment bounds and is not optimized.
+\end{remark}
+
+\section*{Acknowledgments and funding}
+
+This work was done by multiple AI agents, Claude (Anthropic) and Codex (OpenAI), connected to Math
+Brain~\cite{MathBrainRepo} and working together inside the Brain framework~\cite{BrainFramework}, a shared, persistent
+memory in which the agents record claims, proofs, failed attempts and methods, retrieve one another's results,
+coordinate who works on what, and audit each other's work. For more on the Brain and Math Brain, see the Math Brain
+paper~\cite{MathBrainPaper}, the Math Brain repository~\cite{MathBrainRepo} and the Brain framework
+repository~\cite{BrainFramework}.
+
+The research presented in this paper was supported by the European Research Council (ERC) under the European
+Union's Horizon Europe research and innovation programme (grant agreement No.\ 101041711), by the Simons Foundation
+(as part of the Collaboration on the Mathematical and Scientific Foundations of Deep Learning), by Heights Labs, by
+Convex Nexus Capital, and by the Israel Science Foundation (grants 2258/19 and 4101/25).
+
+\section*{Code and data availability}
+
+The paper uses no data and no code.
+
+\section*{Declaration of competing interest}
+
+The author holds equity in Heights Labs and Convex Nexus Capital and has a management role at Convex Nexus Capital.
+
+\section*{Declaration of generative AI and AI-assisted technologies}
+
+This paper is part of a broader research project on proving open problems with AI systems. The arguments were developed
+with AI systems (OpenAI Codex and Anthropic Claude agents), which also drafted the text. The problem is posed in Rolla's
+survey \cite{Rolla}, and the two phases on the cycle are due to Basu, Ganguly, Hoffman and Richey \cite{BGHR}. The proof rests on the stable odometers constructed by Johnson and Richey \cite{JR} and on the
+identification of the critical density by Hoffman, Johnson and Junge \cite{HJJ}. The author directed the work and is
+responsible for the content of the paper and for decisions concerning its dissemination.
+
+\appendix
+\section{Notation}
+
+\begin{center}
+\begin{tabular}{@{}lp{0.52\textwidth}l@{}}
+\toprule
+Symbol & Meaning & First appears\\
+\midrule
+$\Z_n$ & the cycle with $n$ sites & Section~\ref{sec:intro}\\
+$\lambda$ & sleep rate & Section~\ref{sec:intro}\\
+$\zeta$ & mean initial count per site & Section~\ref{sec:intro}\\
+$\rho_c(\lambda)$ & critical density of ARW on $\Z$ & Section~\ref{sec:intro}\\
+$T_n$ & total number of topplings during stabilization & Section~\ref{sec:intro}\\
+$c,C,K$ & positive constants depending only on $\lambda$ and the density & Theorem~\ref{thm:main}\\
+$m_n(x)$ & number of topplings at $x$ & Corollary~\ref{cor:tight}\\
+$\sleep$ & one sleeping particle & Section~\ref{sec:prelim}\\
+$\tau^{x,k}$ & $k$-th instruction at site $x$ & Section~\ref{sec:prelim}\\
+$m_\alpha$, $m_\eta$ & odometer of a sequence of topplings; stabilizing odometer of $\eta$ & Section~\ref{sec:prelim}\\
+$L_y(u)$, $R_y(u)$ & left and right jumps among the first $u(y)$ instructions at $y$ & Section~\ref{sec:prelim}\\
+$s_y(u)$ & $1$ if the $u(y)$-th instruction at $y$ is a sleep instruction, else $0$ & Section~\ref{sec:prelim}\\
+$\sigma$ & initial configuration of active particles & Section~\ref{sec:prelim}\\
+$a,b$ & endpoint and centre constants of the local odometers & Lemma~\ref{lem:local}\\
+$D_x$, $J$, $R$ & local scale at $x$, its cap, the window radius & Proposition~\ref{prop:bernoulli}\\
+$U$ & pasted odometer & Proposition~\ref{prop:bernoulli}\\
+$\xi$, $r$ & Bernoulli marks and their density & Section~\ref{sec:poisson}\\
+$H$, $h_x$ & cap on the size of deficient sets; largest deficient set at $x$ & Section~\ref{sec:poisson}\\
+$\theta^{x,k}$ & tape of the $k$-th particle starting at $x$ & Section~\ref{sec:poisson}\\
+$W_x$ & routing cost of the particles starting at $x$ & Section~\ref{sec:poisson}\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{thebibliography}{99}\raggedright
+
+\bibitem{AFG}
+A.~Asselah, N.~Forien and A.~Gaudilli\`ere,
+\emph{The critical density for activated random walks is always less than 1},
+Ann. Probab. \textbf{52} (2024), no.~5, 1607--1649, doi:10.1214/23-AOP1674.
+
+\bibitem{BGHR}
+R.~Basu, S.~Ganguly, C.~Hoffman and J.~Richey,
+\emph{Activated random walk on a cycle},
+Ann. Inst. Henri Poincar\'e Probab. Stat. \textbf{55} (2019), no.~3, 1258--1277, doi:10.1214/18-AIHP918;
+arXiv:1709.09163.
+
+\bibitem{BS}
+A.~Bristiel and J.~Salez,
+\emph{Separation cutoff for activated random walks},
+Ann. Appl. Probab. \textbf{34} (2024), no.~6, 5211--5227, doi:10.1214/24-AAP2089; arXiv:2209.03274.
+
+\bibitem{LRT}
+B.~N.~B. de~Lima, L.~T. Rolla and C.~Terra,
+\emph{On the slow phase for fixed-energy activated random walks},
+J. Appl. Probab. \textbf{63} (2026), no.~3, 1330--1345, doi:10.1017/jpr.2026.10083; arXiv:2408.07049.
+
+\bibitem{Forien}
+N.~Forien,
+\emph{A new proof of superadditivity and of the density conjecture for activated random walks on the line},
+preprint (2025), arXiv:2502.02579.
+
+\bibitem{FG}
+N.~Forien and A.~Gaudilli\`ere,
+\emph{Active phase for activated random walks on the lattice in all dimensions},
+Ann. Inst. Henri Poincar\'e Probab. Stat. \textbf{60} (2024), no.~2, 1188--1214, doi:10.1214/22-AIHP1341;
+arXiv:2203.02476.
+
+\bibitem{HJJ}
+C.~Hoffman, T.~Johnson and M.~Junge,
+\emph{The density conjecture for activated random walk},
+preprint (2024), arXiv:2406.01731.
+
+\bibitem{HJJMcut}
+C.~Hoffman, T.~Johnson, M.~Junge and J.~Meisel,
+\emph{Cutoff for activated random walk},
+preprint (2025), arXiv:2501.17938.
+
+\bibitem{HJJMsoc}
+C.~Hoffman, T.~Johnson, M.~Junge and J.~Meisel,
+\emph{Activated random walk exhibits self-organized criticality},
+preprint (2026), arXiv:2605.00207.
+
+\bibitem{HRR}
+C.~Hoffman, J.~Richey and L.~T. Rolla,
+\emph{Active phase for activated random walk on $\Z$},
+Comm. Math. Phys. \textbf{399} (2023), no.~2, 717--735, doi:10.1007/s00220-022-04572-x; arXiv:2009.09491.
+
+\bibitem{JR}
+T.~Johnson and J.~Richey,
+\emph{The odometer in subcritical activated random walk},
+Electron. Commun. Probab. \textbf{31} (2026), paper no.~74, doi:10.1214/26-ECP819; arXiv:2510.05514.
+
+\bibitem{JKM}
+M.~Junge, H.~Kaufman and J.~Meisel,
+\emph{Scaling limit and density conjecture for activated random walk on the complete graph},
+preprint (2026), arXiv:2604.04747.
+
+\bibitem{LL}
+L.~Levine and F.~Liang,
+\emph{Exact sampling and fast mixing of activated random walk},
+Electron. J. Probab. \textbf{29} (2024), 1--20, doi:10.1214/24-EJP1220; arXiv:2110.14008.
+
+\bibitem{Rolla}
+L.~T. Rolla,
+\emph{Activated random walks on $\mathbb Z^d$},
+Probab. Surv. \textbf{17} (2020), 478--544, doi:10.1214/19-PS339; arXiv:1906.05037.
+
+\bibitem{Shm}
+Y.~Shmalo,
+\emph{A third-moment criterion for the odometer of subcritical activated random walk on $\mathbb Z$},
+Zenodo (2026), doi:10.5281/zenodo.24363818.
+
+\bibitem{MathBrainPaper}
+Y.~Shmalo, \emph{Math Brain: shared, auditable memory for multi-agent mathematical research}, October 2026.
+\url{https://github.com/yspennstate/math-brain-public/tree/5427734deee9be643d6dfbdd5e7d4baeeefe4a4a/papers/math-brain-2026-10-24}
+
+\bibitem{MathBrainRepo}
+Y.~Shmalo, \emph{Math Brain: public snapshot, code and tests}, 2026.
+\url{https://github.com/yspennstate/math-brain-public/tree/5427734deee9be643d6dfbdd5e7d4baeeefe4a4a}
+
+\bibitem{BrainFramework}
+Y.~Shmalo, \emph{Brain Framework}, public software repository, 2026.
+\url{https://github.com/yspennstate/brain-framework-public/tree/46b935d26d5a2893f7790b60466387dd8da47ef5}
+
+\end{thebibliography}
+
+\end{document}
